@@ -1,30 +1,142 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painel de Exercícios</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, #0d1117, #1f2937);
+            color: #fff;
+        }.container {
+        max-width: 700px;
+        margin: 40px auto;
+        background: rgba(255, 255, 255, 0.06);
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 0 25px rgba(0,0,0,0.4);
+        backdrop-filter: blur(12px);
+    }
+
+    h2 {
+        text-align: center;
+        font-size: 28px;
+        margin-bottom: 25px;
+        letter-spacing: 1px;
+    }
+
+    select {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 12px;
+        border: none;
+        margin-bottom: 25px;
+        background: #111827;
+        color: #fff;
+        outline: none;
+    }
+
+    .exercise {
+        background: rgba(255, 255, 255, 0.08);
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 25px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        transition: 0.3s;
+    }
+
+    .exercise:hover {
+        transform: scale(1.02);
+        box-shadow: 0 0 18px rgba(0,0,0,0.45);
+    }
+
+    h3 {
+        margin-top: 0;
+        font-size: 22px;
+        margin-bottom: 15px;
+    }
+
+    .reps {
+        margin: 10px 0;
+        display: flex;
+        align-items: center;
+    }
+
+    input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        accent-color: #10b981;
+    }
+
+    label {
+        margin-left: 10px;
+        font-size: 16px;
+    }
+</style>
+
 </head>
 <body>
-    <head>
-        <p>Hello world</p>
-    </head>
-    <main>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/3shEF1zNlCg?si=KEE0bQq5hvI8qa1p" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-    <a href="https://www.youtube.com/watch?v=GRAfwHR4pxw">
-        <img src="https://img.youtube.com/vi/GRAfwHR4pxw/maxresdefault.jpg" alt="">
-    </a>
-    <a href="https://www.youtube.com/watch?v=FpsCzFGL1LE">
-        <img src="https://img.youtube.com/vi/FpsCzFGL1LE/maxresdefault.jpg" alt="">
-    </a>
-        <a href="https://www.youtube.com/watch?v=H42zWaD4A4s">
-        <img src="https://img.youtube.com/vi/H42zWaD4A4s/maxresdefault.jpg" alt="">
-    </a>
-    </main>
-    <footer>
-    <p id="ronaldo">eu acho que ta errado isso</p>
-    </footer>
-</body>
-<p>do you understand this</p>
+<div class="container">
+    <h2>Painel de Exercícios</h2><label for="dificuldade">Nível de dificuldade:</label>
+<select id="dificuldade" onchange="atualizarRepeticoes()">
+    <option value="1">Nível 1</option>
+    <option value="2">Nível 2</option>
+    <option value="3">Nível 3</option>
+</select>
+
+<div id="exercicios"></div>
+
+</div><script>
+const dados = {
+    "Flexões": [
+        [10,10,10],
+        [20,20,20],
+        [30,30,30]
+    ],
+    "Abdominais": [
+        [50,50,50],
+        [100,100,100],
+        [150,150,150]
+    ],
+    "Abdominais Multi": [
+        [50,50,50],
+        [100,100,100],
+        [150,150,150]
+    ],
+    "Prancha": [
+        ["1 min","1 min","1 min"],
+        ["2 min","2 min","2 min"],
+        ["3 min","3 min","3 min"]
+    ]
+};
+
+function atualizarRepeticoes() {
+    const nivel = document.getElementById("dificuldade").value - 1;
+    const container = document.getElementById("exercicios");
+    container.innerHTML = "";
+
+    Object.keys(dados).forEach(exercicio => {
+        const bloco = document.createElement("div");
+        bloco.className = "exercise";
+        bloco.innerHTML = `<h3>${exercicio}</h3>`;
+
+        dados[exercicio][nivel].forEach((rep, i) => {
+            const repDiv = document.createElement("div");
+            repDiv.className = "reps";
+            repDiv.innerHTML = `
+                <input type='checkbox' id='${exercicio}-${i}'>
+                <label for='${exercicio}-${i}'>Repetição ${i+1}: ${rep}</label>
+            `;
+            bloco.appendChild(repDiv);
+        });
+
+        container.appendChild(bloco);
+    });
+}
+
+atualizarRepeticoes();
+</script></body>
 </html>
